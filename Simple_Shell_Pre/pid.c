@@ -3,6 +3,6 @@
 
 int main()
 {
-	printf("%i", getppid());
+	printf("%i", getpid());
 	return (0);
 }

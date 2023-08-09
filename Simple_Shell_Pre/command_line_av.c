@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include "super_simple_shell.h"
 
 /**
  * getArrayOfWords - This function takes str as an input and returns
@@ -72,23 +70,33 @@ char **getArrayOfWords(char *str)
 	return (res);
 }
 
-int main(int argc, char *argv[])
+void free_array_words(char **arr)
 {
-	char **result;
-	char *str = argv[1];
 	int i = 0;
+
+	while(arr[i] != NULL)
+		free(arr[i++]);
 	
-	if (argc < 2)
-	{
-		printf("You have to provide at least two arguments in (text) format.\n");
-		return -1;
-	}
-
-	result = getArrayOfWords(str);
-
-	while (result != NULL && result[i] != NULL)
-		printf("[%i] - %s\n", i, result[i++]);
-
-	return 0;
+	free(arr);
 }
 
+char *read_line()
+{
+	char *buff;
+	ssize_t bytes_read;
+	size_t size = 1024;
+
+	printf("#cisfun ");
+
+	buff = malloc(sizeof(char) * size);
+
+	if (buff == NULL)
+		return (NULL);
+
+	bytes_read = getline(&buff, &size, stdin);
+
+	if (bytes_read == -1)
+		return (NULL);
+	
+	return (buff);
+}
