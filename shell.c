@@ -9,23 +9,33 @@ int main(int argc, char **argv, const char **env)
 {
 	const char *prompt = "($)", *path_dir = "PATH";
 	char **words_array = NULL;
-	char *path_env = _getenv_value(env, path_dir), *line = NULL, *delim_str = " \n";
+	char *path_env = _getenv_value(env, path_dir), *line = NULL, *delim_str = " \n\t";
 	char *path_exec;
 	int child_pid, status;
 
 	(void) argc;
-	(void) argv;
 
-	while (1)
+	while (true)
 	{
-		printPrompt(prompt);
+		if (isatty(STDIN_FILENO))
+			printPrompt(prompt);
+
 		line = read_line();
 
 		if (line == NULL)
 		{
-			printf("\n");
+			if (isatty(STDIN_FILENO))
+				printf("\n");
+
+			free(line);
 			free(path_env);
 			return (0);
+		}
+
+		if (strempty(line))
+		{
+			free(line);
+			continue;
 		}
 
 		words_array = getArrayOfWords(line, delim_str);
@@ -42,7 +52,9 @@ int main(int argc, char **argv, const char **env)
 
 		if (path_exec == NULL)
 		{
-			printf("File not found\n");
+			printf("%s: %i: %s: not found", argv[0], argc, words_array[0]);
+			if (isatty(STDIN_FILENO))
+				printf("\n");
 
 		} else
 		{
@@ -53,6 +65,9 @@ int main(int argc, char **argv, const char **env)
 			{
 				if(execve(path_exec, words_array, NULL) == -1)
 				{
+					free_array_words(words_array);
+					free(path_env);
+					free(line);
 					perror("%s\n");
 					return (-1);
 				}
@@ -71,13 +86,3 @@ int main(int argc, char **argv, const char **env)
 	free(path_env);
 	return (0);
 }
-
-/*
-* TODO LIST:
-* - Hacer la función _getenv(char *env_name) que devuelva la variable de entorno que le pasamos
-* - Dividir con strtok el contenido de la variable separando por ':'
-* - Hacer un while para iterar sobre todos los elementos del array, para cada elemento hacer un
-*	stat dentro de la carpeta buscando el ejecutable que se escribió (Ej. 'ls')
-*		-> Si lo encuentra, lo ejecuta
-*		-> Si no lo encuentra, lanza un mensaje de error
-*/

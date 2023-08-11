@@ -83,14 +83,9 @@ void free_array_words(char **arr)
 
 char *read_line()
 {
-	char *buff;
+	char *buff = NULL;
 	ssize_t bytes_read;
-	size_t size = 1024;
-
-	buff = malloc(sizeof(char) * size);
-
-	if (buff == NULL)
-		return (NULL);
+	size_t size = 0;
 
 	bytes_read = getline(&buff, &size, stdin);
 

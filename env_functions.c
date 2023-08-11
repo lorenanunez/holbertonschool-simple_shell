@@ -12,11 +12,13 @@ char *_getenv_value(const char **env, const char* env_name)
 {
     int i = 0;
     char *env_content = NULL;
+
     
     if (env == NULL || env_name == NULL)
     {
         return (NULL);
     }
+
 
     while (env[i] != NULL)
     {
@@ -53,9 +55,14 @@ char *_getenv_value(const char **env, const char* env_name)
 char *_get_exec_path(char *path, char *exec)
 {
     int i = 0;
-    char **array_words = getArrayOfWords((char *) path, ":");
+    char **array_words;
     char *dir_res;
     struct stat st;
+
+    if (stat(exec, &st) == 0)
+        return (strdup(exec));
+    
+    array_words = getArrayOfWords((char *) path, ":");
 
     while (array_words != NULL && array_words[i] != NULL)
     {
@@ -64,7 +71,7 @@ char *_get_exec_path(char *path, char *exec)
         if (dir_res == NULL)
             return (NULL);
 
-        strcpy(dir_res, strdup(array_words[i]));
+        strcpy(dir_res, array_words[i]);
         strcat(dir_res, "/");
         strcat(dir_res, exec);
 

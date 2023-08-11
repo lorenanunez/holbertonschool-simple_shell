@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <string.h>
 #include <limits.h>
@@ -16,5 +17,6 @@ char *read_line();
 void printPrompt(const char *str);
 char *_getenv_value(const char **env, const char* env_name);
 char *_get_exec_path(char *path, char *exec);
+bool strempty(char *str);
 
 #endif
