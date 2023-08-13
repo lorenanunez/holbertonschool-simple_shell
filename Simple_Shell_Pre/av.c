@@ -1,5 +1,12 @@
 #include <stdio.h>
 
+/**
+ * main - stat example
+ * @argc: Size of argv.
+ * @argv: Array of vectors.
+ * Return: Always 0.
+ */
+
 int main(int argc, char const *argv[])
 {
 	int i;

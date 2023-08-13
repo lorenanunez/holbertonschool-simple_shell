@@ -3,20 +3,29 @@
 #include <string.h>
 #include <stdlib.h>
 
-int main(int argc, char* argv[]) {
+/**
+ * main - Main function that prints piped content.
+ * @argc: Arguments counter.
+ * @argv: ARguments vector.
+ * Return: 0 always.
+*/
 
-    size_t size;
+int main(int argc, char *argv[])
+{
+	size_t size;
 
-    if (!isatty(fileno(stdin))) {
-        
-        int i = 0;
-        char *pipe, *str;
+	if (!isatty(STDIN_FILENO))
+	{
 
-        getline(&str, &size, stdin);
-        pipe = strtok(str, " \n");
+		int i = 0;
+		char *pipe, *str;
 
-        fprintf(stdout, "piped content: >>%s<<\n", pipe);
-        free(str);
-    }
+		getline(&str, &size, stdin);
+		pipe = strtok(str, " \n");
 
+		fprintf(stdout, "piped content: >>%s<<\n", pipe);
+		free(str);
+	}
+
+	return (0);
 }

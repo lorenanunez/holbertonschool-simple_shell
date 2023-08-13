@@ -8,41 +8,41 @@
  * Return: An allocated string on success or NULL otherwise.
 */
 
-char *_getenv_value(const char **env, const char* env_name)
+char *_getenv_value(const char **env, const char *env_name)
 {
-    int i = 0;
-    char *env_content = NULL;
-
-    
-    if (env == NULL || env_name == NULL)
-    {
-        return (NULL);
-    }
+	int i = 0;
+	char *env_content = NULL;
 
 
-    while (env[i] != NULL)
-    {
-        if (strncmp(env_name, env[i], strlen(env_name)) == 0)
-        {
-            strtok((char *)env[i], "=");
-            env_content = strdup(strtok(NULL, "="));
-            
-            if (env_content == NULL)
-            {
-                return (NULL);
-            }
+	if (env == NULL || env_name == NULL)
+	{
+		return (NULL);
+	}
 
-            return (env_content);
-        }
 
-        i++;
-    }    
+	while (env[i] != NULL)
+	{
+		if (strncmp(env_name, env[i], strlen(env_name)) == 0)
+		{
+			strtok((char *)env[i], "=");
+			env_content = strdup(strtok(NULL, "="));
 
-    return (env_content);
+			if (env_content == NULL)
+			{
+				return (NULL);
+			}
+
+			return (env_content);
+		}
+
+		i++;
+	}
+
+	return (env_content);
 }
 
 /**
- * get_exec_path - Returns a pointer to the string
+ * _get_exec_path - Returns a pointer to the string
  * containing the correct path to the exec variable
  * using the PATH enviroment variable.
  * @path: Has to be the value of the key=value present in env
@@ -54,37 +54,37 @@ char *_getenv_value(const char **env, const char* env_name)
 
 char *_get_exec_path(char *path, char *exec)
 {
-    int i = 0;
-    char **array_words;
-    char *dir_res;
-    struct stat st;
+	int i = 0;
+	char **array_words;
+	char *dir_res;
+	struct stat st;
 
-    if (stat(exec, &st) == 0)
-        return (strdup(exec));
-    
-    array_words = getArrayOfWords((char *) path, ":");
+	if (stat(exec, &st) == 0)
+		return (strdup(exec));
 
-    while (array_words != NULL && array_words[i] != NULL)
-    {
-        dir_res = malloc(sizeof(char) * (strlen(array_words[i]) + strlen(exec) + 2));
-        
-        if (dir_res == NULL)
-            return (NULL);
+	array_words = getArrayOfWords((char *) path, ":");
 
-        strcpy(dir_res, array_words[i]);
-        strcat(dir_res, "/");
-        strcat(dir_res, exec);
+	while (array_words != NULL && array_words[i] != NULL)
+	{
+		dir_res = malloc(sizeof(char) * (strlen(array_words[i]) + strlen(exec) + 2));
 
-        if (stat(dir_res, &st) == 0)
-        {
-            free_array_words(array_words);
-            return (dir_res);
-        }
-        
-        free(dir_res);
-        i++;
-    }
+		if (dir_res == NULL)
+			return (NULL);
 
-    free_array_words(array_words);
-    return (NULL);
+		strcpy(dir_res, array_words[i]);
+		strcat(dir_res, "/");
+		strcat(dir_res, exec);
+
+		if (stat(dir_res, &st) == 0)
+		{
+			free_array_words(array_words);
+			return (dir_res);
+		}
+
+		free(dir_res);
+		i++;
+	}
+
+	free_array_words(array_words);
+	return (NULL);
 }

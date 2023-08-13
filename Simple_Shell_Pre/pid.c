@@ -1,7 +1,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int main()
+/**
+ * main - Main function.
+ * Return: 0 always.
+*/
+
+int main(void)
 {
 	printf("%i", getpid());
 	return (0);

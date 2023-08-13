@@ -3,34 +3,37 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
+/**
+ * main - Main function.
+ * Return: 0 on success, -1 if fails.
+*/
+
 int main(void)
 {
-    int child_pid, i = 0, status;
-    const int times = 5;
+	int child_pid, i = 0, status;
+	const int times = 5;
 
-    char *argv[] = {"/bin/ls", "-l", "/tmp", NULL};
+	char *argv[] = {"/bin/ls", "-l", "/tmp", NULL};
 
+	for (i = 0; i < times; i++)
+	{
+		child_pid = fork();
 
-    for(i = 0; i < times; i++)
-    {
-        child_pid = fork();
-        
-        if (child_pid == -1)
-            return (-1);
-        
-        if (child_pid == 0)
-        {
-            printf("\nChild: %i - Parent: %i\n", getpid(), getppid());
-            execve(argv[0], argv, NULL);
-            return (0);
+		if (child_pid == -1)
+			return (-1);
 
-        } else {
+		if (child_pid == 0)
+		{
+			printf("\nChild: %i - Parent: %i\n", getpid(), getppid());
+			execve(argv[0], argv, NULL);
+			return (0);
 
-            wait(&status);
-            sleep(1);
+		} else
+		{
+			wait(&status);
+			sleep(1);
+		}
+	}
 
-        }
-    }
-
-    return 0;
+	return (0);
 }

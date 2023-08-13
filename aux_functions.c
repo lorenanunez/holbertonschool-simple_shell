@@ -5,7 +5,7 @@
  * an array with each word of this string. it uses malloc for
  * returning the right amount of memory, so it must be liberated after
  * being used. It also freeds str.
- *
+ * @delim: Delimiter that we're going to use to tokenize.
  * @str: String to split into words.
  * Return: A pointer to an array of words or NULL if failed.
 */
@@ -21,19 +21,16 @@ char **getArrayOfWords(char *str, char *delim)
 
 	cpy_str = strdup(str);
 	token = strtok(cpy_str, delim);
-
 	while (token != NULL)
 	{
 		token = strtok(NULL, delim);
 		count++;
 	}
-
 	free(cpy_str);
 	res = malloc(sizeof(char **) * (count + 1));
 
 	if (res == NULL)
 		return (NULL);
-
 	cpy_str = strdup(str);
 	token = strtok(cpy_str, delim);
 	for (i = 0; token != NULL && i < count; i++)
@@ -50,7 +47,6 @@ char **getArrayOfWords(char *str, char *delim)
 			return (NULL);
 		}
 	}
-
 	free(cpy_str);
 	res[i] = NULL;
 	return (res);
@@ -108,3 +104,4 @@ void printPrompt(const char *str)
 {
 	printf("%s ", str);
 }
+
