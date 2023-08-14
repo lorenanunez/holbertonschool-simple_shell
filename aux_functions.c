@@ -5,7 +5,7 @@
  * an array with each word of this string. it uses malloc for
  * returning the right amount of memory, so it must be liberated after
  * being used. It also freeds str.
- * @delim: Delimiter that we're going to use to tokenize.
+ * @delim: Delimiter that we're going to use to tokenize.s
  * @str: String to split into words.
  * Return: A pointer to an array of words or NULL if failed.
 */

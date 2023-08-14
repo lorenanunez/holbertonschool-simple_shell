@@ -32,6 +32,8 @@ int main(int argc, char **argv, const char **env)
 			continue;
 
 		words_array = getArrayOfWords(line, delim_str);
+		if (strcmp(words_array[0], "env") == 0)
+			print_env(env);
 
 		if (compare_exit_code(words_array[0], words_array, line, path_env) == 0)
 			return (0);
@@ -42,12 +44,10 @@ int main(int argc, char **argv, const char **env)
 			print_errors(argv[0], argc, words_array[0]);
 		else if ((fork_execve(path_exec, words_array, path_env, line)) == -1)
 			return (-1);
-
 		free(line);
 		free(path_exec);
 		free_array_words(words_array);
 	};
-
 	free(path_env);
 	return (0);
 }

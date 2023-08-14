@@ -11,20 +11,19 @@
 char *_getenv_value(const char **env, const char *env_name)
 {
 	int i = 0;
-	char *env_content = NULL;
-
+	char *env_content = NULL, *env_cpy;
 
 	if (env == NULL || env_name == NULL)
 	{
 		return (NULL);
 	}
 
-
 	while (env[i] != NULL)
 	{
 		if (strncmp(env_name, env[i], strlen(env_name)) == 0)
 		{
-			strtok((char *)env[i], "=");
+			env_cpy = strdup(env[i]);
+			strtok((char *)env_cpy, "=");
 			env_content = strdup(strtok(NULL, "="));
 
 			if (env_content == NULL)
@@ -32,6 +31,7 @@ char *_getenv_value(const char **env, const char *env_name)
 				return (NULL);
 			}
 
+			free(env_cpy);
 			return (env_content);
 		}
 
@@ -87,4 +87,21 @@ char *_get_exec_path(char *path, char *exec)
 
 	free_array_words(array_words);
 	return (NULL);
+}
+
+/**
+ * print_env - Prints the enviroment variables.
+ * @arr_env: Array containing the enviroment variables.
+ * Return: Nothing.
+*/
+
+void print_env(const char **arr_env)
+{
+	int i = 0;
+
+	while (arr_env != NULL && arr_env[i] != NULL)
+	{
+		printf("%s\n", arr_env[i]);
+		i++;
+	}
 }

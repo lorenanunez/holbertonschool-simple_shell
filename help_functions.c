@@ -87,7 +87,7 @@ int fork_execve(char *p_exec, char **w_arr, char *p_env, char *line)
 		return (-1);
 	if (child_pid == 0)
 	{
-		if (execve(p_exec, w_arr, NULL) == -1)
+		if (execve(p_exec, w_arr, environ) == -1)
 		{
 			free_array_words(w_arr);
 			free(p_env);
