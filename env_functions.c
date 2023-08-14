@@ -95,13 +95,13 @@ char *_get_exec_path(char *path, char *exec)
  * Return: Nothing.
 */
 
-void print_env(const char **arr_env)
+void print_env()
 {
 	int i = 0;
 
-	while (arr_env != NULL && arr_env[i] != NULL)
+	while (environ != NULL && environ[i] != NULL)
 	{
-		printf("%s\n", arr_env[i]);
+		printf("%s\n", environ[i]);
 		i++;
 	}
 }

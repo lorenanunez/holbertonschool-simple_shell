@@ -13,7 +13,7 @@ int main(int argc, char **argv, const char **env)
 	const char *prompt = "($)", *path_dir = "PATH";
 	char **words_array = NULL;
 	char *path_env = _getenv_value(env, path_dir), *line = NULL;
-	char *path_exec, *delim_str = " \n\t";
+	char *path_exec, *delim_str = " \n\t\'\"";
 	int res;
 
 	(void) argc;
@@ -32,11 +32,9 @@ int main(int argc, char **argv, const char **env)
 			continue;
 
 		words_array = getArrayOfWords(line, delim_str);
-		if (strcmp(words_array[0], "env") == 0)
-			print_env(env);
 
 		if (compare_exit_code(words_array[0], words_array, line, path_env) == 0)
-			return (0);
+			exit(0);
 
 		path_exec = _get_exec_path(path_env, words_array[0]);
 

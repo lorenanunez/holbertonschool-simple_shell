@@ -24,6 +24,6 @@ int check_line(char *line, char *path_env);
 void print_errors(char *p_name, int argc, char *p_exec);
 int compare_exit_code(char *str, char **arr, char *line, char *path);
 int fork_execve(char *p_exec, char **w_arr, char *p_env, char *line);
-void print_env(const char **arr_env);
+void print_env();
 
 #endif
