@@ -1,0 +1,87 @@
+.TH hsh 1 2023-08-14 GNU
+.SH NAME
+hsh \- Simple shell.
+.SH SYNOPSIS
+
+.B hsh
+\- runs shell interactive mode
+.sp 2
+.B echo {command} | ./hsh
+\- runs shell non\-interactive mode
+.SH DESCRIPTION
+.B hsh
+\- This shell recreates most of the features of the Bourne Shell, including built-in
+.br
+functions such as env and exit. It also handles the EOF (End of file) condition.
+.br
+The shell can be used in two different ways. The first is
+.B non-interactive
+.br
+mode where piped input is sent to the function for execution
+.br
+and then exits. The second is the interactive mode, where the program waits
+.br
+for the user input. If that program exists, it will be
+.br
+executed, otherwise an appropriate message will be printed in the terminal
+.sp 2
+hsh checks if the function called is present in the provided path.
+.br
+If not found, it attempts to locate it within the PATH enviroment variable
+
+.SH RETURN VALUE
+It returns 0 if everything is succeeds, and if there is an error, returns -1
+.br
+or the corresponding exit code value.
+
+.SH EXAMPLES
+.nf
+----------------------------------------------------------------
+
+echo "ls -lah" | ./hsh
+
+--> Output
+
+total 104K
+drwxr-xr-x 5 root root 4.0K Aug 14 23:47 .
+drwx------ 1 root root 4.0K Aug 15 02:20 ..
+drwxr-xr-x 8 root root 4.0K Aug 14 19:47 .git
+-rw-r--r-- 1 root root   48 Aug  9 22:05 .gitignore
+drwxr-xr-x 2 root root 4.0K Aug 10 18:05 .vscode
+-rw-r--r-- 1 root root  325 Aug 13 23:18 AUTHORS
+-rw-r--r-- 1 root root 3.3K Aug 14 23:42 README.md
+drwxr-xr-x 2 root root  24K Aug 13 17:58 Simple_Shell_Pre
+-rw-r--r-- 1 root root 2.0K Aug 14 14:31 aux_functions.c
+-rw-r--r-- 1 root root 2.2K Aug 14 22:05 env_functions.c
+-rw-r--r-- 1 root root 2.5K Aug 14 22:04 help_functions.c
+-rwxr-xr-x 1 root root  18K Aug 14 23:46 hsh
+-rw-r--r-- 1 root root  959 Aug 15 02:20 man_1_simple_shell
+-rw-r--r-- 1 root root 1.1K Aug 14 22:02 shell.c
+-rw-r--r-- 1 root root  780 Aug 14 19:21 shell.h
+
+----------------------------------------------------------------
+
+echo "pwd" | ./hsh
+
+--> Output
+
+/root/holbertonschool-simple_shell
+
+----------------------------------------------------------------
+
+$ ./hsh
+ ($) cat text.txt
+ This is an example text
+ that have multiple lines
+ and it's waiting to
+ be printed.
+ ($) exit
+root@:~/holberton-simple_shell
+echo $?
+0
+
+----------------------------------------------------------------
+
+.fi
+.SH AUTHOR
+This function was created by Facundo Sánchez and Lorena Nuñez.

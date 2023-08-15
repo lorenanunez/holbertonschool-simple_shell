@@ -16,8 +16,6 @@ int main(int argc, char **argv, const char **env)
 	char *path_exec, *delim_str = " \n\t\'\"";
 	int res;
 
-	(void) argc;
-
 	while (true)
 	{
 		if (isatty(STDIN_FILENO))
@@ -27,7 +25,7 @@ int main(int argc, char **argv, const char **env)
 		res = check_line(line, path_env);
 
 		if (res == 0)
-			return (0);
+			exit(0);
 		else if (res == -1)
 			continue;
 
@@ -41,11 +39,11 @@ int main(int argc, char **argv, const char **env)
 		if (path_exec == NULL)
 			print_errors(argv[0], argc, words_array[0]);
 		else if ((fork_execve(path_exec, words_array, path_env, line)) == -1)
-			return (-1);
+			exit(-1);
 		free(line);
 		free(path_exec);
 		free_array_words(words_array);
 	};
 	free(path_env);
-	return (0);
+	exit(0);
 }

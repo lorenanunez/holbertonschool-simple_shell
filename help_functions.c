@@ -41,9 +41,9 @@ int check_line(char *line, char *path_env)
 
 void print_errors(char *p_name, int argc, char *p_exec)
 {
-	printf("%s: %i: %s: not found", p_name, argc, p_exec);
-		if (isatty(STDIN_FILENO))
-			printf("\n");
+	printf("%s: %i: %s: not found\n", p_name, argc, p_exec);
+	if (!isatty(STDIN_FILENO))
+		exit(127);
 }
 
 /**
@@ -93,8 +93,10 @@ int fork_execve(char *p_exec, char **w_arr, char *p_env, char *line)
 			free(p_env);
 			free(line);
 			perror("%s\n");
-			return (-1);
+			exit(-1);
 		}
+
+		exit(0);
 	} else
 	{
 		wait(&status);
