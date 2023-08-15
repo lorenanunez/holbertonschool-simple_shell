@@ -23,27 +23,28 @@ int main(int argc, char **argv, const char **env)
 
 		line = read_line();
 		res = check_line(line, path_env);
-
 		if (res == 0)
-			exit(0);
+			return (0);
 		else if (res == -1)
 			continue;
-
 		words_array = getArrayOfWords(line, delim_str);
-
 		if (compare_exit_code(words_array[0], words_array, line, path_env) == 0)
-			exit(0);
+			return (0);
 
 		path_exec = _get_exec_path(path_env, words_array[0]);
 
 		if (path_exec == NULL)
 			print_errors(argv[0], argc, words_array[0]);
-		else if ((fork_execve(path_exec, words_array, path_env, line)) == -1)
-			exit(-1);
+		else
+		{
+			res = fork_execve(path_exec, words_array, path_env, line);
+			if (res == -1)
+				return (-1);
+		}
 		free(line);
 		free(path_exec);
 		free_array_words(words_array);
 	};
 	free(path_env);
-	exit(0);
+	return (0);
 }
