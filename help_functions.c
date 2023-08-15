@@ -96,7 +96,6 @@ int fork_execve(char *p_exec, char **w_arr, char *p_env, char *line)
 			exit(-1);
 		}
 
-		return (0);
 	} else
 	{
 		wait(&status);
