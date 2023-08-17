@@ -62,7 +62,7 @@ char *_get_exec_path(char *path, char *exec)
 	char *dir_res;
 	struct stat st;
 
-	if (stat(exec, &st) == 0)
+	if (stat(exec, &st) == 0 )
 		return (strdup(exec));
 
 	if (path == NULL)

@@ -14,7 +14,7 @@ int main(int argc, char **argv, const char **env)
 	char **words_array = NULL;
 	char *path_env = _getenv_value(env, path_dir), *line = NULL;
 	char *path_exec, *delim_str = " \n\t\'\"";
-	int res;
+	int res = 0, child_exit = 0;
 
 	while (true)
 	{
@@ -24,21 +24,21 @@ int main(int argc, char **argv, const char **env)
 		line = read_line();
 		res = check_line(line, path_env);
 		if (res == 0)
-			return (0);
+			return (child_exit);
 		else if (res == -1)
 			continue;
 		words_array = getArrayOfWords(line, delim_str);
 		if (compare_exit_code(words_array[0], words_array, line, path_env) == 0)
-			return (0);
+			return (child_exit);
 
 		path_exec = _get_exec_path(path_env, words_array[0]);
 
 		if (path_exec == NULL)
-			print_errors(argv[0], argc, words_array[0]);
+			child_exit = print_errors(argv[0], argc, words_array[0]);
 		else
 		{
-			res = fork_execve(path_exec, words_array, path_env, line);
-			if (res == -1)
+			child_exit = fork_execve(path_exec, words_array, path_env, line);
+			if (child_exit == -1)
 				return (-1);
 		}
 		free(line);
