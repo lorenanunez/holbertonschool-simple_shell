@@ -11,7 +11,7 @@
 char *_getenv_value(const char **env, const char *env_name)
 {
 	int i = 0;
-	char *env_content = NULL, *env_cpy;
+	char *env_content = NULL, *env_cpy = NULL;
 
 	if (env == NULL || env_name == NULL)
 		return (NULL);
@@ -26,11 +26,15 @@ char *_getenv_value(const char **env, const char *env_name)
 
 			env_content = strtok((char *)env_cpy, "=");
 			env_content = strtok(NULL, "=");
-			if (env_content != NULL)
-				env_content = strdup(env_content);
 
 			if (env_content == NULL)
+			{
+				free(env_cpy);
 				return (NULL);
+			}
+
+			if (env_content != NULL)
+				env_content = strdup(env_content);
 
 			free(env_cpy);
 			return (env_content);
@@ -39,7 +43,10 @@ char *_getenv_value(const char **env, const char *env_name)
 	}
 
 	if (env[i] == NULL || strlen(env[i]) == 0)
+	{
+		free(env_cpy);
 		return (NULL);
+	}
 
 	return (env_content);
 }
@@ -97,16 +104,28 @@ char *_get_exec_path(char *path, char *exec)
 
 /**
  * print_env - Prints the enviroment variables.
- * Return: Nothing.
+ * @str: String to be compared.
+ * @arr: Tokenized array to be free'd
+ * @line: Line to be free'd
+: * Return: Nothing.
 */
 
-void print_env(void)
+int print_env(char *str, char **arr, char *line)
 {
 	int i = 0;
 
-	while (environ != NULL && environ[i] != NULL)
+	if (strcmp(str, "env") == 0)
 	{
-		printf("%s\n", environ[i]);
-		i++;
+		free_array_words(arr);
+		free(line);
+		while (environ != NULL && environ[i] != NULL)
+		{
+			printf("%s\n", environ[i]);
+			i++;
+		}
+
+		return (0);
 	}
+
+	return (1);
 }

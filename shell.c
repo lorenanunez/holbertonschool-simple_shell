@@ -13,14 +13,13 @@ int main(int argc, char **argv, const char **env)
 	const char *prompt = "($)", *path_dir = "PATH";
 	char **words_array = NULL;
 	char *path_env = _getenv_value(env, path_dir), *line = NULL;
-	char *path_exec, *delim_str = " \n\t\'\"";
+	char *path_exec = NULL, *delim_str = " \n\t\'\"";
 	int res = 0, child_exit = 0;
 
 	while (true)
 	{
 		if (isatty(STDIN_FILENO))
 			printPrompt(prompt);
-
 		line = read_line();
 		res = check_line(line, path_env);
 		if (res == 0)
@@ -28,8 +27,12 @@ int main(int argc, char **argv, const char **env)
 		else if (res == -1)
 			continue;
 		words_array = getArrayOfWords(line, delim_str);
+
 		if (compare_exit_code(words_array[0], words_array, line, path_env) == 0)
 			return (child_exit);
+
+		if (print_env(words_array[0], words_array, line) == 0)
+			continue;
 
 		path_exec = _get_exec_path(path_env, words_array[0]);
 
