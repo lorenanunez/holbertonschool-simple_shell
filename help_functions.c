@@ -42,7 +42,7 @@ int check_line(char *line, char *path_env)
 int print_errors(char *p_name, int argc, char *p_exec)
 {
 	dprintf(STDERR_FILENO, "%s: %i: %s: not found\n", p_name, argc, p_exec);
-	return(127);
+	return (127);
 }
 
 /**
